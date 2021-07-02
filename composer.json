@@ -1,0 +1,8 @@
+{
+  "name": "jhu-idc/idc_defaults",
+  "type": "drupal-module",
+  "description": "Customizations for the Islandora integration at JHU's Sheridan Libraries.",
+  "require": {
+    "islandora/islandora": "^1"
+  }
+}
