@@ -1,0 +1,8 @@
+name: iDC Defaults
+description: Customizations for the Islandora integration at JHU's Sheridan Libraries.
+package: iDC
+type: module
+core_version_requirement: ^8 || ^9
+dependencies:
+  - islandora:islandora
+  - drupal:workbench_access
