@@ -2,6 +2,14 @@
   "name": "jhu-idc/idc_defaults",
   "type": "drupal-module",
   "description": "Customizations for the Islandora integration at JHU's Sheridan Libraries.",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
   "require": {
     "islandora/islandora": "dev-8.x-1.x"
   }
