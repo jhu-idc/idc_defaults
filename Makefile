@@ -54,7 +54,7 @@ composer-update: .make/pull-image .make/composer-update
 composer-install: .make/pull-image .make/composer-install
 
 .make/composer-install:
-	source .env && docker run --rm -v $$PWD:/app ${DOCKER_REGISTRY}/${IMAGE_NAME}:$${TEST_IMAGE_TAG} install
+	source .env && docker run --rm -v $$PWD:/app ${DOCKER_REGISTRY}/${IMAGE_NAME}:$${TEST_IMAGE_TAG} install --dev
 	@touch .make/composer-install
 
 .PHONY: check-platform-reqs

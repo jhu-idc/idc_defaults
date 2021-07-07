@@ -10,8 +10,41 @@
       "url": "https://packages.drupal.org/8"
     }
   ],
+
   "require": {
     "islandora/islandora": "dev-8.x-1.x",
-    "drupal/workbench_access": "^1.0@beta"
+    "drupal/core-recommended": "^8.9"
+  },
+
+  "require-dev": {
+    "phpunit/phpunit": "^7.5",
+    "drupal/workbench_access": "^1.0@beta",
+    "drupal/core-dev": "^8.9"
+  },
+
+  "config": {
+    "platform": {
+      "php": "7.3.25"
+    }
+  },
+
+  "autoload": {
+    "psr-4": {
+      "Drupal\\Core\\Composer\\": "vendor/drupal/core/lib/Drupal/Core/Composer"
+    }
+  },
+
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Composer\\": "composer"
+    },
+    "classmap": [
+      "src/",
+      "vendor/"
+    ]
+  },
+
+  "scripts": {
+    "pre-autoload-dump": "Drupal\\Core\\Composer\\Composer::preAutoloadDump"
   }
 }
