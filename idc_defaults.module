@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Defines hooks used for JHU's iDC integration.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_entity_bundle_field_info_alter().
+ */
+function idc_defaults_entity_bundle_field_info_alter(&$fields, EntityTypeInterface $entity_type, $bundle) {
+  if (isset($fields['field_member_of'])) {
+    $fields['field_member_of']->addConstraint('WorkbenchAccess');
+  }
+}

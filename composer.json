@@ -3,6 +3,7 @@
   "type": "drupal-module",
   "description": "Customizations for the Islandora integration at JHU's Sheridan Libraries.",
   "require": {
-    "islandora/islandora": "dev-8.x-1.x"
+    "islandora/islandora": "dev-8.x-1.x",
+    "drupal/workbench_access": "^1.0@beta"
   }
 }
