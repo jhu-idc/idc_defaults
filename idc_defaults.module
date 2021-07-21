@@ -14,4 +14,7 @@ function idc_defaults_entity_bundle_field_info_alter(&$fields, EntityTypeInterfa
   if (isset($fields['field_member_of'])) {
     $fields['field_member_of']->addConstraint('WorkbenchAccess');
   }
+  if (isset($fields['field_access_terms'])) {
+    $fields['field_access_terms']->addConstraint('WorkbenchSections');
+  }
 }
