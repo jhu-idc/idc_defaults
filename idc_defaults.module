@@ -27,3 +27,10 @@ function idc_defaults_field_widget_info_alter(array &$info) {
   // opposed to defining its own empty extension of it.
   $info['string_textfield']['field_types'][] = 'idc_unique';
 }
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function idc_defaults_field_formatter_info_alter(array &$info) {
+  $info['string']['field_types'][] = 'idc_unique';
+}
