@@ -18,3 +18,12 @@ function idc_defaults_entity_bundle_field_info_alter(&$fields, EntityTypeInterfa
     $fields['field_access_terms']->addConstraint('WorkbenchSections');
   }
 }
+
+/**
+ * Implements hook_field_widget_info_alter().
+ */
+function idc_defaults_field_widget_info_alter(array &$info) {
+  // Allow the idc_unique field to use the normal string_textfield widget as
+  // opposed to defining its own empty extension of it.
+  $info['string_textfield']['field_types'][] = 'idc_unique';
+}
