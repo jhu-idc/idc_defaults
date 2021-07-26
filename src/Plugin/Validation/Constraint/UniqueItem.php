@@ -5,7 +5,7 @@ namespace Drupal\idc_defaults\Plugin\Validation\Constraint;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Checks that the user has access to an entity.
+ * Checks that an ID is unique in Drupal.
  *
  * @Constraint(
  *   id = "IdcUniqueItem",
