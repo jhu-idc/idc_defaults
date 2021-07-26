@@ -14,7 +14,7 @@ use Drupal\Core\Field\Plugin\Field\FieldType\UuidItem;
  *   id = "idc_unique",
  *   label = @Translation("iDC Unique Field"),
  *   description = @Translation("An entity field containing a unique value used within iDC."),
- *   default_widget = "idc_unique_widget",
+ *   default_widget = "string_textfield",
  *   default_formatter = "string"
  * )
  */
