@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 /**
- * Validates that the user has access to the entity.
+ * Validates that the ID is unique.
  */
 class UniqueItemValidator extends ConstraintValidator implements ContainerInjectionInterface {
 
