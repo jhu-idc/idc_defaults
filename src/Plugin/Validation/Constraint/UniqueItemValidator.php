@@ -55,18 +55,25 @@ class UniqueItemValidator extends ConstraintValidator implements ContainerInject
    * {@inheritdoc}
    */
   public function validate($items, Constraint $constraint) {
-    foreach ($items as $item) {
-      $field_name = $items->getFieldDefinition()->getName();
-      $field_map = $this->entityFieldManager->getFieldMap();
 
+    $field_name = $items->getFieldDefinition()->getName();
+    $field_map = $this->entityFieldManager->getFieldMap();
+    $nodeId = $items->getEntity()->id();
+
+    foreach ($items as $item) {
       foreach ($field_map as $entity_type => $fields) {
         if (isset($fields[$field_name])) {
-          $query = $this->entityTypeManager->getStorage($entity_type)->getQuery();
-          $value_taken = (bool) $query
+          $query = $this->entityTypeManager->getStorage($entity_type)->getQuery()
             ->condition($field_name, $item->getValue())
             ->range(0, 1)
-            ->count()
-            ->execute();
+            ->count();
+          // If the object we're working with already has a nid, than this is an update.
+          // We need to make sure that a user can update the same object using the same exact
+          // unique_id.  If we don't put this here, than updates fail.
+          if ($nodeId) {
+            $query->condition('nid', $nodeId, "!=");
+          }
+          $value_taken = (bool)$query->execute();
           if ($value_taken) {
             $this->context->addViolation($constraint->alreadyExists, ['@id' => $item->getValue()]);
           }
