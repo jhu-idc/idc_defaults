@@ -58,7 +58,15 @@ class UniqueItemValidator extends ConstraintValidator implements ContainerInject
 
     $field_name = $items->getFieldDefinition()->getName();
     $field_map = $this->entityFieldManager->getFieldMap();
-    $nodeId = $items->getEntity()->id();
+    $item_id = $items->getEntity()->id();
+    $item_type_id = $items->getEntity()->getEntityTypeId();
+    $id_str = 'nid';
+
+    if ($item_type_id == 'taxonomy_term') {
+      $id_str = 'tid';
+    } else if ($item_type_id == 'media') {
+      $id_str = 'mid';
+    }
 
     foreach ($items as $item) {
       foreach ($field_map as $entity_type => $fields) {
@@ -67,11 +75,12 @@ class UniqueItemValidator extends ConstraintValidator implements ContainerInject
             ->condition($field_name, $item->getValue())
             ->range(0, 1)
             ->count();
-          // If the object we're working with already has a nid, than this is an update.
+          // If the object we're working with already has an id, than this is an update.
           // We need to make sure that a user can update the same object using the same exact
-          // unique_id.  If we don't put this here, than updates fail.
-          if ($nodeId) {
-            $query->condition('nid', $nodeId, "!=");
+          // unique_id.  If we don't put this here, than validation fails as the object itself
+          // will match its own id and trigger a violation.
+          if ($entity_type == $item_type_id && $item_id) {
+            $query->condition($id_str, $item_id, "!=");
           }
           $value_taken = (bool)$query->execute();
           if ($value_taken) {
@@ -80,7 +89,5 @@ class UniqueItemValidator extends ConstraintValidator implements ContainerInject
         }
       }
     }
-
   }
-
 }
