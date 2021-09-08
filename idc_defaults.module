@@ -34,3 +34,31 @@ function idc_defaults_field_widget_info_alter(array &$info) {
 function idc_defaults_field_formatter_info_alter(array &$info) {
   $info['string']['field_types'][] = 'idc_unique';
 }
+
+/**
+ * Implements hook_plugin_filter_condition plugin
+ *
+ * Filters conditions out of the google tag manager form. The google
+ * tag manager from does not need these and they will cause problems if
+ * they do exist there.
+ *
+ * This was borrowed from https://github.com/Islandora/documentation/issues/1887,
+ * though I added in a couple (one that was specific to our setup).
+ */
+function idc_defaults_plugin_filter_condition__google_tag_alter(&$definitions, array $extra) {
+  unset($definitions['content_entity_type']);
+  unset($definitions['file_uses_filesystem']);
+  unset($definitions['media_has_mimetype']);
+  unset($definitions['media_source_mimetype']);
+  unset($definitions['media_has_term']);
+  unset($definitions['media_is_islandora_media']);
+  unset($definitions['media_uses_filesystem']);
+  unset($definitions['node_had_namespace']);
+  unset($definitions['node_has_parent']);
+  unset($definitions['node_has_term']);
+  unset($definitions['node_is_islandora_object']);
+  unset($definitions['node_referenced_by_node']);
+  unset($definitions['parent_node_has_term']);
+  unset($definitions['media_mediatype']);
+  unset($definitions['islandora_entity_bundle']);
+}
