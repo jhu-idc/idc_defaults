@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\islandora_defaults\Plugin\Condition;
+namespace Drupal\idc_defaults\Plugin\Condition;
 
 use Drupal\Core\Condition\ConditionPluginBase;
 use Drupal\Core\Form\FormStateInterface;
