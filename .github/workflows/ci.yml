@@ -1,0 +1,11 @@
+name: Continuous Integration
+on: [ pull_request ]
+jobs:
+  tests:
+    name: Build test container and run unit tests
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Unit Tests
+        run: make test
