@@ -6,6 +6,52 @@
  */
 
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Session\UserSession;
+use Drupal\user\Entity\User;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drush\Commands\DrushCommands;
+use Drush\Drush;
+
+/**
+ * Implements hook_cron().
+ */
+function idc_defaults_cron(){
+  define('DRUPAL_ROOT', getcwd());
+  // Limit frequency of this cron job to once per day.
+  $cron_config = \Drupal::configFactory()->getEditable('idc_defaults.settings');
+  $interval = $cron_config->get('interval');
+  $interval = !empty($interval) ? $interval : 3;
+  $next_execution = \Drupal::state()->get('idc_defaults.next_execution');
+  $next_execution = !empty($next_execution) ? $next_execution : 0;
+  if (REQUEST_TIME >= $next_execution) {
+    if (\Drupal::state()->get('idc_defaults_show_status_message')) {
+      \Drupal::messenger()->addMessage(t('idc_defaults executed at %time', ['%time' => date_iso8601(REQUEST_TIME)]));
+      \Drupal::state()->set('idc_defaults_show_status_message', FALSE);
+
+    }
+    \Drupal::state()->set('idc_defaults.next_execution', REQUEST_TIME + $interval);
+  }
+  try {
+    // Run php file as admin user.
+    $user = User::load(1);
+    $accountSwitcher = \Drupal::service('account_switcher');
+    $userSession = new UserSession([
+      'uid'   => $user->id(),
+      'name'  => $user->getDisplayName(),
+      'roles' => $user->getRoles(),
+    ]);
+    $accountSwitcher->switchTo($userSession);
+    include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'idc_defaults') . '/src/generate-image-derivatives.php';
+    \Drupal::logger('idc_defaults')->info($user->getDisplayName() . ' executed idc_defaults at ' . \Drupal::currentUser()->id());
+    $accountSwitcher->switchBack();
+  } catch (Exception $th) {
+    \Drupal::logger('idc_defaults')->error($th);
+  }
+
+  // $command = 'php ' . DRUPAL_ROOT . '/' . drupal_get_path('module', 'idc_defaults') . '/src/generate-image-derivatives.php';
+  // \Drush::process($command, $output)->run();
+  // \Drupal::logger('idc_defaults')->info($output);
+}
 
 /**
  * Implements hook_entity_bundle_field_info_alter().
