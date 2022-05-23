@@ -42,15 +42,11 @@ function idc_defaults_cron(){
     ]);
     $accountSwitcher->switchTo($userSession);
     include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'idc_defaults') . '/src/generate-image-derivatives.php';
-    \Drupal::logger('idc_defaults')->info($user->getDisplayName() . ' executed idc_defaults at ' . \Drupal::currentUser()->id());
+    \Drupal::logger('idc_defaults')->info($user->getDisplayName() . ' executed idc_defaults at ' . $user->id());
     $accountSwitcher->switchBack();
   } catch (Exception $th) {
     \Drupal::logger('idc_defaults')->error($th);
   }
-
-  // $command = 'php ' . DRUPAL_ROOT . '/' . drupal_get_path('module', 'idc_defaults') . '/src/generate-image-derivatives.php';
-  // \Drush::process($command, $output)->run();
-  // \Drupal::logger('idc_defaults')->info($output);
 }
 
 /**
