@@ -29,7 +29,12 @@ class MediaUseIsPresent extends NodeHasTerm {
         $config['term']['#selection_settings']['target_bundles'][] = 'islandora_media_use';
       }
     } else {
-        $config['term']['#selection_settings']['target_bundles'] = array('islandora_media_use');
+      if (isset($config['term']['#selection_settings'])) {
+        $config['term']['#selection_settings']['target_bundles'] = ['islandora_media_use'];
+      } else {
+        // Remove from requiring all blocks to have a term.
+        $config['term']['#required'] = FALSE;
+      }
     }
 
     return $config;
@@ -39,17 +44,16 @@ class MediaUseIsPresent extends NodeHasTerm {
    * {@inheritdoc}
    */
   public function evaluate() {
-    if (empty($this->configuration['uri']) && !$this->isNegated()) {
-      return TRUE;
-    }
-
     $media = $this->getContextValue('media');
     if (!$media) {
       return FALSE;
     }
+    if (empty($this->configuration['uri'])) {
+      return TRUE;
+    }
     $val = $this->evaluateEntity($media);
-    //$valStr = $val ? "true" : "false";
-    //\Drupal::logger("Media Condition")->info("Evaluate: $valStr (negate: " . $this->isNegated() . ")");
+    // $valStr = $val ? "true" : "false";
+    // \Drupal::logger("Media Condition")->info("Evaluate: $valStr (negate: " . $this->isNegated() . ")");
     return  $val;
   }
 
