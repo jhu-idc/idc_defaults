@@ -52,7 +52,11 @@ class UniqueItemValidator extends ConstraintValidator implements ContainerInject
   }
 
   /**
-   * {@inheritdoc}
+   * Validates that the ID is unique.
+   * @param mixed $items
+   *  The value of the field.
+   * @param \Symfony\Component\Validator\Constraint $constraint
+   * The constraint for the field.
    */
   public function validate($items, Constraint $constraint) {
 
