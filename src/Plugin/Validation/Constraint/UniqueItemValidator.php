@@ -77,6 +77,7 @@ class UniqueItemValidator extends ConstraintValidator implements ContainerInject
         if (isset($fields[$field_name])) {
           $query = $this->entityTypeManager->getStorage($entity_type)->getQuery()
             ->condition($field_name, $item->getValue())
+            ->accessCheck(TRUE)
             ->range(0, 1)
             ->count();
           // If the object we're working with already has an id, than this is an update.
